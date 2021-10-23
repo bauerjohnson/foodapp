@@ -1,0 +1,58 @@
+131 => creating folders
+132 => in layout f, creating the header(using image) with header.js and passing it to app.js
+133 => creating 'YOUR CART' , that is in the header and passing it to header.js
+134 => creating the 
+          AvailableMeals.js => dummy meal array and then mapping it
+            MealsSummary.js => message abt the meal
+                    meal.js => passing the MealsSummary and AvailableMeals here
+   and then passing the meal.js to app.js
+   
+   135 => creating mealitem.js and using it app.js, mapping dummy item
+   into mealitem.js so as to use mealitem styles
+
+   136 => creating the mealitemform.js, input.js and then passing input.js
+    to mealitemform.js and using mealitemform.js in mealitem.js so
+    the input will be side by side with meal items
+
+    137 => fixing the input id so that we pass unique ids
+    138 = creating cart.js, which display wen we click our cart at the top
+    139 =>creating modal using reactportal and passing modal.js to 
+    cart.js(using there) and passing cart.js to app.js
+    
+    140 =>using usestate in app.js to display or remove modal
+
+    141 =>creating cart-contex.js, cartprovider and using it in app.js
+    142 => in headerCartButton.js , import cartcontext there and create inital value 
+    to be zero
+
+    143 => using use reducer in cartprovider.js to do the adding LOGIC
+    for our cart
+
+    144 => using useref to get the amount of item entered, in
+    order to set some valodation on it, and also using usestate to 
+    diplay an error if validation is incorrrect, we then pass the amount 
+    to the mealitem because thats where we need it, we then use context
+    in mealiteam.js , so that our usecontext will have access to
+    all of datas, in order to update them appropriately
+
+145 => using usecontext.cart.js(cart modal), displaying correct 
+totalAmount, using context to show items added to the cart,and showing
+the order button only if an item is added
+    Also, creating two new components, cartitem.js and cartitem.css,
+    import cartitem.js inside cart.js and then MAP items added to 
+to the cart.js using it, i.e
+
+<cartitem/>
+
+for better stlying , and also the cartItemAddHandler and cartItemRemoveHandler,
+the - and + 
+
+146 => in the cartprovider, we create a new logic for adding in the
+reducer so that same items wont be showing in our cart modal if
+added twice or more, it will only be added to the existingCartItem
+and also we made the + button work 
+
+147 => creating the removeItem logic in the cartprovider reducer,
+for removing an item and also remove all item if only one item is left
+
+148 =>

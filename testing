@@ -1,0 +1,1158 @@
+131 => STARTING SETUP
+
+COMPONENT F => CART F, LAYOUT F, MEALS F, UI F
+
+132 => ADDING A HEADER COMPONENT
+
+LAYOUT F => HEADER.JS, HEADER.MODULE.CSS(ATTACH FILE)
+
+header.js, 
+asset F => image.jpg,
+app.js
+
+in header.js
+
+import mealsImage from '../../assets/meals.jpg';
+import classes from './Header.module.css';
+
+const Header = (props) => {
+  return (
+    <Fragment>
+      <header className={classes.header}>
+        <h1>ReactMeals</h1>
+       <Button>Cart</Button> 
+      </header>
+      <div className={classes['main-image']}>
+        <img src={mealsImage} alt='A table full of delicious food!' />
+      </div>
+    </Fragment>
+  );
+};
+
+
+in app.js
+
+import { Fragment } from 'react';
+
+import Header from './components/Layout/Header';
+
+function App() {
+  return (
+    <Fragment>
+      <Header />
+    </Fragment>
+  );
+}
+
+ 133 => ADDING THE CART BUTTON COMPONENT
+
+ COMPONENT => headerCartButton.js, headerCartButton.module.css, carticon.js, header.js
+
+in the carticon.js
+
+const CartIcon = () => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 20 20'
+      fill='currentColor'
+    >
+      <path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z' />
+    </svg>
+  );
+};
+
+in the headerCartButton.js
+
+import CartIcon from '../Cart/CartIcon';
+import classes from './HeaderCartButton.module.css';
+
+const HeaderCartButton = (props) => {
+  return (
+    <button className={classes.button}>
+      <span className={classes.icon}>
+        <CartIcon />
+      </span> 
+      <span>Your Cart</span>
+      <span className={classes.badge}>3</span>
+    </button>
+  );
+};
+
+export default HeaderCartButton;
+
+in the header.js
+
+import HeaderCartButton from './HeaderCartButton';
+
+<header className={classes.header}>
+        <h1>ReactMeals</h1>
+        <HeaderCartButton />
+      </header>
+
+134 => ADDING A "MEALS" COMPONENT
+
+MEALS F => Meals.js, AvailableMeals.js and css, MealsSummary.js and css
+
+in the MealsSummary.JS
+
+import classes from './MealsSummary.module.css';
+
+const MealsSummary = () => {
+  return (
+    <section className={classes.summary}>
+      <h2>Delicious Food, Delivered To You</h2>
+      <p>
+        Choose your favorite meal from our broad selection of available meals
+        and enjoy a delicious lunch or dinner at home.
+      </p>
+      <p>
+        All our meals are cooked with high-quality ingredients, just-in-time and
+        of course by experienced chefs!
+      </p>
+    </section>
+  );
+};
+
+in the AvailableMeals.js
+
+import classes from './AvailableMeals.module.css';
+
+const DUMMY_MEALS = [
+  {
+    id: 'm1',
+    name: 'Sushi',
+    description: 'Finest fish and veggies',
+    price: 22.99,
+  },
+  {
+    id: 'm2',
+    name: 'Schnitzel',
+    description: 'A german specialty!',
+    price: 16.5,
+  },
+  {
+    id: 'm3',
+    name: 'Barbecue Burger',
+    description: 'American, raw, meaty',
+    price: 12.99,
+  },
+  {
+    id: 'm4',
+    name: 'Green Bowl',
+    description: 'Healthy...and green...',
+    price: 18.99,
+  },
+];
+
+const AvailableMeals = () => {
+  const mealsList = DUMMY_MEALS.map((meal) => <li>{meal.name}</li>);
+
+  return (
+    <section className={classes.meals}>
+      <ul>{mealsList}</ul>
+    </section>
+  );
+};
+
+in meals.js
+
+import { Fragment } from 'react';
+
+import MealsSummary from './MealsSummary';
+import AvailableMeals from './AvailableMeals';
+
+const Meals = () => {
+  return (
+    <Fragment>
+      <MealsSummary />
+      <AvailableMeals />
+    </Fragment>
+  
+
+  in the app.js
+
+  
+import Header from './components/Layout/Header';
+import Meals from './components/Meals/Meals';
+
+function App() {
+  return (
+    <Fragment>
+      <Header />
+      <main>
+        <Meals />
+      </main>
+    </Fragment>
+  );
+}
+
+135 => ADDING INDIVIDUAL MEAL ITEMS N DISPLAYING THEM
+
+NEW => Card.js,Card.module.css(attach to the lecture), AvailableMeals.js,
+new F => Mealitem F => Mealitem.js n css, AvailableMeals.js
+
+in card.js
+
+import classes from './Card.module.css';
+
+const Card = props => {
+  return <div className={classes.card}>{props.children}</div>
+};
+
+export default Card;
+
+in AvailableMeals.js
+
+import Card from '../UI/Card';
+
+ return (
+    <section className={classes.meals}>
+      <Card>
+        <ul>{mealsList}</ul>
+      </Card>
+    </section>
+  );
+}; 
+
+in Mealitem.js
+
+const MealItem = (props) => {
+  const price = `$${props.price.toFixed(2)}`;
+
+  return (
+    <li className={classes.meal}>
+      <div>
+        <h3>{props.name}</h3>
+        <div className={classes.description}>{props.description}</div>
+        <div className={classes.price}>{price}</div>
+      </div>
+      <div></div>
+    </li>
+  );
+};
+
+
+in AvailableMeals.js
+
+import MealItem from './MealItem/MealItem';
+
+const AvailableMeals = () => {
+  const mealsList = DUMMY_MEALS.map((meal) => (
+    <MealItem
+    id = {meal.id} //not part of this vid
+      key={meal.id}
+      name={meal.name}
+      description={meal.description}
+      price={meal.price}
+    />
+  ));
+
+136 => ADDING A FORM
+
+MEALITEM F => NEW => mealitemform.js n css, Mealitem.js, input.js n css
+
+
+in the Mealitem.js
+
+import mealitemform from ./mealitemform
+
+return (
+    <li className={classes.meal}>
+      <div>
+        <h3>{props.name}</h3>
+        <div className={classes.description}>{props.description}</div>
+        <div className={classes.price}>{price}</div>
+      </div>
+      <div>
+      *  <MealItemForm id={props.id} /> //not yet passing this though
+      </div>
+    </li>
+  );
+};
+
+in the input.js
+
+const Input = (props) => {
+  return (
+    <div className={classes.input}>
+      <label htmlFor={props.input.id}>{props.label}</label>
+      <input {...props.input} />
+    </div>
+  );
+};
+
+in the mealitemform.js
+
+import Input from '../../UI/Input';
+import classes from './MealItemForm.module.css';
+
+const MealItemForm = (props) => {
+  return (
+    <form className={classes.form}>
+      <Input
+        label='Amount'
+        input={{
+          id: 'amount' 
+          type: 'number',
+          min: '1',
+          max: '5',
+          step: '1',
+          defaultValue: '1',
+        }}
+      />
+      <button>+ Add</button>
+    </form>
+  );
+};
+
+137 => FIXING FORM INPUT ID
+
+const MealItemForm = (props) => {
+  return (
+    <form className={classes.form}>
+      <Input
+        label='Amount'
+        input={{
+          id: 'amount_' + props.id, //new, creating unique id for all input, jst a correction
+          type: 'number',
+          min: '1',
+          max: '5',
+          step: '1',
+          defaultValue: '1',
+        }}
+      />
+      <button>+ Add</button>
+    </form>
+  );
+};
+
+in the Mealitem.js
+
+import mealitemform from ./mealitemform
+
+return (
+    <li className={classes.meal}>
+      <div>
+        <h3>{props.name}</h3>
+        <div className={classes.description}>{props.description}</div>
+        <div className={classes.price}>{price}</div>
+      </div>
+      <div>
+      *  <MealItemForm id={props.id} /> //then we do this
+      </div>
+    </li>
+  );
+};
+
+const AvailableMeals = () => {
+  const mealsList = DUMMY_MEALS.map((meal) => (
+    <MealItem
+      key={meal.id}
+     * id={meal.id}  //new
+      name={meal.name}
+      description={meal.description}
+      price={meal.price}
+    />
+  ));
+
+three id's pass here to create unique id for each meal items
+
+138 => WORKING ON THE SHOPPING CART COMPONENT
+
+CART F => cart.js n css
+
+in the cart.js
+
+const Cart = (props) => {
+  const cartItems = (
+    <ul className={classes['cart-items']}>
+      {[{ id: 'c1', name: 'Sushi', amount: 2, price: 12.99 }].map((item) => (
+        <li>{item.name}</li>
+      ))}
+    </ul>
+  );
+
+  return (
+    <div>
+      {cartItems}
+      <div className={classes.total}>
+        <span>Total Amount</span>
+        <span>35.62</span>
+      </div>
+      <div className={classes.actions}>
+        <button className={classes['button--alt']}>Close</button>
+        <button className={classes.button}>Order</button>
+      </div>
+    </div>
+  );
+};
+
+139 => ADDING A MODAL VIA REACT PORTAL
+index.html, modal.js and css , cart.js, app.js
+
+in the index.html
+
+<noscript>You need to enable JavaScript to run this app.</noscript>
+   * <div id="overlays"></div>
+
+UI => NEW => MODAL.JS
+
+import { Fragment } from 'react';
+import ReactDOM from 'react-dom';
+
+import classes from './Modal.module.css';
+
+const Backdrop = (props) => {
+  return <div className={classes.backdrop} />;
+};
+
+const ModalOverlay = (props) => {
+  return (
+    <div className={classes.modal}>
+      <div className={classes.content}>{props.children}</div>
+    </div>
+  );
+};
+
+const portalElement = document.getElementById('overlays');
+
+const Modal = (props) => {
+  return (
+    <Fragment>
+      {ReactDOM.createPortal(<Backdrop />, portalElement)}
+      {ReactDOM.createPortal(
+        <ModalOverlay>{props.children}</ModalOverlay>,
+        portalElement
+      )}
+    </Fragment>
+  );
+};
+
+in cart.js
+
+import Modal from '../UI/Modal';
+
+
+  return (
+    <Modal>
+      {cartItems}
+      <div className={classes.total}>
+        <span>Total Amount</span>
+        <span>35.62</span>
+      </div>
+      <div className={classes.actions}>
+        <button className={classes['button--alt']}>Close</button>
+        <button className={classes.button}>Order</button>
+      </div>
+    </Modal>
+
+
+    in the app.js
+
+    import cart from ./cart
+
+    return (
+      <Fragment>
+      *<Cart/>
+    )
+
+  140 => MANAGING CART N MODAL STATE
+
+  how to make the modal remove wen we click on the backdrop or
+  the close button
+
+  app.js, header.js, headerCartButton.js, cart.js, modal.js, 
+
+  in the app.js
+
+  import { Fragment, useState } from 'react';//using useState
+
+  function App() {
+  const [cartIsShown, setCartIsShown] = useState(false);
+
+  const showCartHandler = () => {
+    setCartIsShown(true);
+  };
+
+  const hideCartHandler = () => {
+    setCartIsShown(false);
+  };
+
+  return (
+    <Fragment>
+      {cartIsShown && <Cart onClose={hideCartHandler} />}
+     * <Header onShowCart={showCartHandler} />
+      <main>
+        <Meals />
+      </main>
+    </Fragment>
+  );
+}
+
+
+in the header.js
+
+ <h1>ReactMeals</h1>
+      *  <HeaderCartButton onClick={props.onShowCart} />
+      </header>
+
+  in the headerCartButton.js
+
+  <button className={classes.button} * onClick={props.onClick}>
+      <span className={classes.icon}>
+        <CartIcon />
+
+now wen we click the cart the modal open, now for the close
+
+in the cart.js
+
+<button className={classes['button--alt']} onClick={props.onClose}>
+          Close
+        </button>
+
+  to use the backdrop remove the modal
+  in the modal.js
+
+  const Backdrop = (props) => {
+  return <div className={classes.backdrop} *onClick={props.onClose}/>;
+};
+
+<Fragment>
+      {ReactDOM.createPortal(<Backdrop *onClose={props.onClose} />, portalElement)}
+      {ReactDOM.createPortal(
+        <ModalOverlay>{props.children}</ModalOverlay>,
+        portalElement
+      )}
+    </Fragment>
+
+    in the cart.js
+
+    return (
+    <Modal onClose={props.onClose}>
+
+    141 => ADDING A CART CONTEXT
+
+    now we want to make sure items can be added to the cart
+NEW => store => cart-context.js, cart-provider.js, app.js
+
+
+in the cart-context
+
+import React from 'react';
+
+const CartContext = React.createContext({
+  items: [],
+  totalAmount: 0,
+  addItem: (item) => {},
+  removeItem: (id) => {}
+});
+
+in cart-provider
+
+import cartContext from ./cartContext;
+
+const CartProvider = (props) => {
+ 
+
+  const addItemToCartHandler = (item) => {  };
+
+  const removeItemFromCartHandler = (id) => { };
+
+  const cartContext = {
+    items : [],
+    totalAmount : 0,
+    addItem : addItemToCartHandler,
+    removeItem : removeItemFromCartHandler
+  }
+ 
+   return (
+    <CartContext.Provider value={cartContext}>
+      {props.children}
+    </CartContext.Provider>
+  );
+};
+
+
+in app.js
+
+import Cart-provider from ./cart-provider
+
+
+we will now remove fragment and use cart-provider instead
+
+return (
+  *  <CartProvider>
+      {cartIsShown && <Cart onClose={hideCartHandler} />}
+      <Header onShowCart={showCartHandler} />
+      <main>
+        <Meals />
+      </main>
+    </CartProvider>
+  );
+
+  unlike in our former project , we use the Authprovider in the app.js file,
+  because we need it in all our component, but since here all the component we
+  need the CartProvider is in the app.js, we then decided to use it in the app.js
+
+in our former project, we use the react context as values directly in the provider
+but here we created a 'const' for it(const cartContext), so dont be confuse. i.e in the cartprovider.js
+
+ const cartContext = {
+    items : [],
+    totalAmount : 0,
+    addItem : addItemToCartHandler,
+    removeItem : removeItemFromCartHandler
+  }
+ 
+   return (
+    <CartContext.Provider value={cartContext}>
+      {props.children}
+    </CartContext.Provider>
+  );
+};
+
+142 => USING THE CONTEXT
+
+HeaderCartButton.JS,
+
+in the headerCartButton.js
+
+import { useContext } from 'react';
+
+import CartContext from '../../store/cart-context';
+
+const HeaderCartButton = (props) => {
+  const cartCtx = useContext(CartContext);
+
+  const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => { // reduce helps us to transform a number of array into a single value
+    return curNumber + item.amount;//curNumber which is zero + the amount of same same items
+  }, 0);the 0 is the initial value, so it is zero we see in the cart before we start the add up
+
+   <span className={classes.badge}>{numberOfCartItems}</span>
+
+  reduce helps us to transform an array into a single value
+
+  143 => ADDING A CART REDUCER
+CartProvider.js
+
+in the CartProvider.js
+
+import { useReducer } from 'react';
+
+const defaultCartState = {
+  items: [],
+  totalAmount: 0
+};
+
+const cartReducer = (state, action) => {
+  if (action.type === 'ADD') {
+    const updatedItems = state.items.concat(action.item);//concat adds new item to the array, which is the new item we get thru the action.item
+    const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;// 0 + price of item * item chosen
+    we are grabbing the amount, price, items, everything from the action.type ===ADD
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount
+    };
+  }
+  return defaultCartState;
+};
+
+const CartProvider = (props) => {
+  const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);
+
+  const addItemToCartHandler = (item) => {
+    dispatchCartAction({type: 'ADD', item: item});
+  };//wenever this function is called, we get the item that shud be added to the cart
+  so then if we already have an item in the cart , we will update the existing item,if it 
+ is not the case, then we addd a new item
+
+  const removeItemFromCartHandler = (id) => {
+    dispatchCartAction({type: 'REMOVE', id: id});
+  };
+
+WE NOW CHANGE THIS 
+const cartContext = {
+    items : [],
+    totalAmount : 0,
+    addItem : addItemToCartHandler,
+    removeItem : removeItemFromCartHandler
+  }
+
+TO THIS
+
+  const cartContext = {
+    items: cartState.items, //the intial state
+    totalAmount: cartState.totalAmount,//the initial state
+    addItem: addItemToCartHandler,
+    removeItem: removeItemFromCartHandler,
+  };
+
+  144 => WORKING WITH REF N FORWARD REFS
+
+  mealitemform.js, input.js, MealItem.js, AvailableMeals.js
+
+  in the mealitemform.js
+
+  since ref wont work inside a custom component i.e the input
+  
+
+  in the input.js
+
+  we do this
+
+  *const Input = React.forwardRef((props, ref) => {
+    return (
+    <div className={classes.input}>
+      <label htmlFor={props.input.id}>{props.label}</label>
+    *  <input ref={ref} {...props.input} />
+    </div>
+  );
+
+now in the mealitemform.js
+
+import { useRef, useState } from 'react';
+
+const MealItemForm = (props) => {
+  const [amountIsValid, setAmountIsValid] = useState(true);
+  const amountInputRef = useRef();
+
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+ const enteredAmount = amountInputRef.current.value;
+    const enteredAmountNumber = +enteredAmount;//the + actually convert the string to a number, i.e the value we got from inputref
+
+    if (
+      enteredAmount.trim().length === 0 ||
+      enteredAmountNumber < 1 ||
+      enteredAmountNumber > 5
+    ) {
+      setAmountIsValid(false);
+      return;
+    }
+
+    props.onAddToCart(enteredAmountNumber);, =here we are passing the validated amount number to the function(onAddToCart) that we are calling in the mealitem
+  //the enteredAmountNumber here is also the "amount" in the mealitem.js we use to create the function i.e  const addToCartHandler = 'amount' => {
+  }
+
+<Input
+return (
+    <form className={classes.form} onSubmit={submitHandler}>
+      <Input
+       * ref={amountInputRef}
+        label='Amount'
+        input={{
+          id: 'amount_' + props.id,
+          type: 'number',
+          min: '1',
+           max: '5',
+          step: '1',
+          defaultValue: '1',
+        }}
+      />
+      <button>+ Add</button>
+      {!amountIsValid && <p>Please enter a valid amount (1-5).</p>}
+    </form>
+  );
+};
+
+in the Mealitem.js
+
+import { useContext } from 'react';
+
+import CartContext from '../../../store/cart-context';
+
+const MealItem = (props) => {
+  const cartCtx = useContext(CartContext);
+
+const addToCartHandler = (amount) => {
+    cartCtx.addItem({//all the items we getting here is from the reducer,name of the items, amount, price, which i said before = action.type = 'ADD', all the items we getting here thru the props
+      id: props.id,
+      name: props.name,
+      amount: amount, // the amount is the one up here const addToCartHandler = (amount) => {, its also the enteredAmountNumber in the mealitemform.js, we are passing it thu props
+      price: props.price,
+    });
+  };
+
+   <div>
+        <MealItemForm id={props.id} onAddToCart={addToCartHandler} />
+      </div>
+
+  in the AvailableMeals.js
+
+   <MealItem
+      key={meal.id}
+    *  id={meal.id} //becos we getting id in the mealitem.js
+      name={meal.name}
+      description={meal.description}
+      price={meal.price}
+    />
+  ));
+
+  SUMMARY 
+
+  we jst pass the function that we created with the useReducer down to the mealitem and then to the mealitemform
+
+
+  145 => OUTPUTTING CART ITEMS
+
+  in cart.js, NEW=> cartItem.js n css
+
+  import { useContext } from 'react';
+  import CartItem from './CartItem';
+
+  const Cart = (props) => {
+  const cartCtx = useContext(CartContext);
+
+ const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const hasItems = cartCtx.items.length > 0;
+
+  const cartItemRemoveHandler = (id) => {};
+
+   const cartItemAddHandler = (item) => {};
+
+  const cartItems = (
+    <ul className={classes['cart-items']}>
+      {cartCtx.items.map((item) => (
+        <CartItem
+          key={item.id}
+          name={item.name}
+          amount={item.amount}
+          price={item.price}
+          onRemove={cartItemRemoveHandler.bind(null, item.id)}
+          onAdd={cartItemAddHandler.bind(null, item)}
+        />
+      ))}
+    </ul>
+  );
+
+ </button>
+        {hasItems && <button className={classes.button}>Order</button>}
+      </div
+
+in cartItems.js
+
+const CartItem = (props) => {
+  const price = `$${props.price.toFixed(2)}`;
+
+  return (
+    <li className={classes['cart-item']}>
+      <div>
+        <h2>{props.name}</h2>
+        <div className={classes.summary}>
+          <span className={classes.price}>{price}</span>
+          <span className={classes.amount}>x {props.amount}</span>
+        </div>
+      </div>
+      <div className={classes.actions}>
+        <button onClick={props.onRemove}>−</button>
+        <button onClick={props.onAdd}>+</button>
+      </div>
+    </li>
+  );
+};
+
+146 => WORKING ON A MORE COMPLEX REDUCER LOGIC
+
+wen we add an item more than once , it shows up multiple
+times , to fix this
+
+in CartProvider.js
+const cartReducer = (state, action) => {
+  if (action.type === 'ADD') {
+    const updatedTotalAmount =
+      state.totalAmount + action.item.price * action.item.amount;
+
+all this
+ const existingCartItemIndex = state.items.findIndex( //here we are making our action(slected item) = to the item in the state already
+      (item) => item.id === action.item.id
+    );
+    const existingCartItem = state.items[existingCartItemIndex]; //now we are creating a constant and then reaching out to that existingCartItemIndex in our state.item, so if any item is already part of an array, this const will be set
+    
+    let updatedItems;//we set a variable
+
+    if (existingCartItem) { //if then our constant that we store is thing that is happening
+     const updatedItem = { //a new object
+        ...existingCartItem, //we store it in a variable immutably, 
+        amount: existingCartItem.amount + action.item.amount, //and then we update the amount selected, i.e the count, not total, it gets me confuse sometime hahaha
+      };
+      updatedItems = [...state.items];// the existing items in our items, we want to update it immutably, without editing the old array in our constant
+      updatedItems[existingCartItemIndex] = updatedItem; // we now update it here and attach it to a new variable
+    } else {
+      updatedItems = state.items.concat(action.item);
+    }
+to here
+
+NOTE : in this solution, we are doing it for the item, but we had update the amount so, it will be added
+if the same item was click again
+147 => MAKING ITEMS REMOVABLE
+
+cart.js
+
+in the cart.js
+
+
+  const cartItemAddHandler = (item) => {
+    cartCtx.addItem({...item, amount: 1});
+  };
+
+  return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
+  }
+  if (action.type === 'REMOVE') {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
+    const existingItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingItem.price;
+    let updatedItems;
+    if (existingItem.amount === 1) {
+      updatedItems = state.items.filter(item => item.id !== action.id);// the one item where the item id is equal to the id of the action, which is the to-be removed id, we return false, and then we remove the item from the newly generated arrays
+    } else {
+      const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+ return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount
+    };
+  }
+
+const cartItemRemoveHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
+  
+  NOTE : 
+    if this was like
+  updatedItems = state.items.filter(item => item.id === action.id);
+
+  we are returning TRUE, thereby keeping it in the array, wen we 
+  den click minus in the browser, the item doesnt not remove wen the 
+  amount is 1, but it starts giving us minus value in the totalAmount
+
+  but wen it is like this
+
+  updatedItems = state.items.filter(item => item.id !== action.id);
+
+  we are returning false , thereby removing it totally from the array,
+  wen the amount is 1, i.e removing it from the cartitem selected entirely
+
+i tested this in the application
+
+  148 => USING THE USEEFFECT HOOK
+
+  in the headerCartButton
+
+  a little animation for our cart to bump wen we add an item
+
+  for that we using USEEFFECT
+
+  we we now add an item the cart bump, useEffect will help reset it again
+
+  import { useContext, useEffect, useState } from 'react';
+
+  const HeaderCartButton = (props) => {
+ * const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
+  const cartCtx = useContext(CartContext);
+
+  const btnClasses = `${classes.button} ${btnIsHighlighted ? classes.bump : ''}`;
+
+const { items } = cartCtx;
+
+useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+    setBtnIsHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setBtnIsHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    }; 
+  }, [items]);
+ 
+
+150 => how does react work behind the scenes
+      understanding the virtual dom and dom updatedItems
+      understanding state n state updates
+
+151 =>HOW REACT REALLY WORKS
+  react isa JavaScript library for building user interface
+
+  react.js manages only manages component,props and state and then hand them over to ReactDOM
+  ReactDOM brings html and css to screen
+
+whenever state, props or context of a component changes, that component function 
+is re-executed or re-evaluated 
+
+re-evaluating is not the same as re-redering to the DOM 
+
+re-evaluating components !== re-redering the DOM
+
+reactDOM only re-evaluates new changes that react.js tells it to do, every other
+things are left not re-evaluated
+
+152 => COMPONENTS UPDATES IN ACTION
+const toggleparagraph = () => {
+  setShowparagh((prevShowparagragh) => !prevShowparagragh
+  )
+}
+how to hide and display using button and usestate
+
+153 => A CLOSER LOOK AT CHILD COMPONENT RE-EVALUATION
+
+ when we use another component to render message to the screen, that other
+component is the only component that is re-render, oh oops, we use console.log
+to check this and since we are managing the states in the app.js , it also get
+re-evaluated, and also using console.log to check things in the demooutput, it also
+gets re-evaluated
+
+in summary if the parent component runs again, the child component also have to
+run again i.e since app.js runs again <demooutput/> inside it and any other child
+component also runs again, and the props value does not even matter, this also
+means child component gets re-evaluated and even if the child component has
+it own child, that also get re-evaluated, so it continues doWn the compoent tree
+ even without the reactDOM redndering anything
+
+ 154 => PREVENTING UNNECESSARY RE-EVALUATION WITH REACT.MEMO
+
+ there are ways to optimize react memo for class based component, but react memo are
+ for functional component
+
+
+
+for the component, its get as an arguement, react should look at the props this
+component gets, and check the new values and compare it to the previous value,
+only if the value of the props change , the component shud be re-evaluted, and if
+the parent component change, but the props value for that component here do not
+change, component execution will be skipped
+
+since this avoid re-evaluation,this then is an optimization that avoids 
+re-rendering
+
+cant use this on all components because the optimization comes with a cost
+
+also note, if react.memo is use on a component that its state change, it would
+re-exeute and react memo wont matter
+
+reactmemo works perfectly well on booleans because behind the scenes, this is
+what is really going on
+
+props.show === props.previous.show ,
+
+so this is why it works perfectly welll on our child component, <demooutput/>
+
+because this is what react memo actually does, comparing former value to new
+value
+
+NOTE : functions are object in javascript, so all the function we normally create
+in our state are object, happy to know this 
+
+
+but unfortunately it didnt work on the button because of the state and html 
+we return and thats because two object even if they have the same content are
+never equal in javascript and therefore react memo thinks the value change
+
+in javascript [1,2,3] === [1,2,3] //are not same
+but false === false > true
+
+again reactmemo understands booleans better than objects, in order to tweak
+react.memo to make it work for object, we introduce usecallback
+
+PREVENTING FUNCTION RE-CREATION WITH USECALLBACK()
+
+usecallback allows us to basically store a function across component execution,
+it allows us to tell react that we want to save a function, and that this function
+should not be re-created with every execution
+
+it saves a function and re-use it when a compoenent functions execute, and using
+it is simple , we jst wrap the function we want to save e.g
+
+const toggleparagraphhandler = usecallback(() => {
+  setShowparagh((prevShowparagragh) => !prevShowparagragh)
+})
+
+now wen we do this, the button does not run again , because usecallback helps
+react.memo to do its job, because the toggleparagraphhandler function object
+is guaranteed to always be the exact same object in memory because of usecallback
+
+156 => USECALLBACK() AND ITS DEPENDENCIES
+
+usecallback dependencies helps re-create functions even after the function is
+saved
+
+like in this case 
+const toggleparagraphhandler = usecallback(() => {
+ if(allowtoggle) {
+   setShowparagh(
+     (prevShowparagragh) => !prevShowparagragh)
+ },[allowtoggle])
+
+ the 'allowtoggle'
+
+ 157 => A FIRST SUMMARY
+
+
+ 158 =>
+
+ as long as component stays in the DOM, state is only updated after the first 
+ initialization
+
+ 159 => UNDERSTANDING STATE SCHEDULING N BATCHING
+
+ when we use state in react, react schedules a state update with updated changes,
+ but to we humans, it looks as if it happens instantly
+ or sometimes some scheduled state are postpone, if react think some other updating
+ function are important than the state update, e.g using an input , inputing
+ something before state schedules is been called
+
+ and also note because scheduled state change might be postpone, is why we must
+use this method of function if we depend on the previous state e.g
+
+     (prevShowparagragh) => !prevShowparagragh)
+
+  wen we update two things in our function, react run it once , not twice,
+  react batch them together e.g
+
+  const navigatehandler = (navPath) => {
+    setCurrentNavPath(navPath);
+    //state is not updated here, but instead, its batch together with below and then updated together
+    setDrawerIsOpen(false)
+  }
+
+160 => OPTIMIZING WITH USEMEMO()
+
+usememo does similar work like usecallback, usememo helps us to store any type
+of data we want to store e.g
+
+const sortedlist = useMemo(()  => {
+  console.log('item sorted')
+  return item.sort((a, b) => a - b) //we have to return what we want to store here
+}, [items]);
+
+and also we could use memo in the parent compoenent, if our child compoenent
+is still running, and this might be happening because of the function in the
+parent component
+
+<DemoList title={listTitle} items={useMemo(() => [5, 3, 1, 10, 9], [])}
+
+or we could do this
+
+const listItems = useMemo(() => [5, 3, 1, 10, 9], [])
+
+return 
+<DemoList title= {listTitle} items = {listItems}/>
+
+now wen we do this , we dont see 'item sorted' in our console
+
+
+
